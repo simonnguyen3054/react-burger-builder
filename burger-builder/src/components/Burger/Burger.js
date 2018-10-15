@@ -16,6 +16,7 @@ const Burger = (props) => {
       .reduce((arr, el) => {
         return arr.concat(el)
       }, []);
+      //reduce is giving us the combined arrays so we can get the length of the ingredients
 
       if (transformedIngredients.length === 0) {
         transformedIngredients = <p>Please start adding ingredients!</p>
