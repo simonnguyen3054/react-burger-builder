@@ -7,12 +7,19 @@ const Burger = (props) => {
   //We map over each key and return a new array. props.ingredients[igKey] gives us the number of indices in the new array
   //We then map over the new array. We don't care about the key of this new array. We care only the index of this new array
   //the final return gives us the BurgerIngredients elements.
-  const transformedIngredients = Object.keys(props.ingredients)
+  let transformedIngredients = Object.keys(props.ingredients)
       .map(igKey => {
         return [...Array(props.ingredients[igKey])].map((_, i) => {
           return <BurgerIngredients key={igKey + i} type={igKey}/>
         });
-      });
+      })
+      .reduce((arr, el) => {
+        return arr.concat(el)
+      }, []);
+
+      if (transformedIngredients.length === 0) {
+        transformedIngredients = <p>Please start adding ingredients!</p>
+      }
 
   return (
     <div className="Burger">
