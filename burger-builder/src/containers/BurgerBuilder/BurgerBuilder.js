@@ -1,6 +1,8 @@
 import React, { Component } from 'react';
-import Burger from '../../components/Burger/Burger'
-import BuildControls from '../../components/Burger/BuildControls/BuildControls'
+import Burger from '../../components/Burger/Burger';
+import BuildControls from '../../components/Burger/BuildControls/BuildControls';
+import Modal from '../../components/UI/Modal/Modal';
+import OrderSummary from '../../components/OrderSummary/OrderSummary';
 
 const INGREDIENT_PRICES = {
   salad: 0.5,
@@ -17,7 +19,8 @@ class BurgerBuilder extends Component {
       meat: 0
     },
     totalPrice: 4,
-    purchasable: false
+    purchasable: false,
+    purchasing: false
   }
 
   //sum up ingredients value. If value is 0, it's not purchasable
@@ -74,6 +77,14 @@ class BurgerBuilder extends Component {
     this.UpdatePurchaseState(updatedIngredients);
   }
 
+  purchaseHandler = () => {
+    this.setState({purchasing: true});
+  }
+
+  purchaseCancelHander = () => {
+    this.setState({purchasing: false})
+  }
+
   render () {
     //create an immutable object of ingredients
     //update the values of this new object with true or false
@@ -87,12 +98,16 @@ class BurgerBuilder extends Component {
 
     return (
       <div>
+        <Modal show={this.state.purchasing} modalClosed={this.purchaseCancelHander}>
+          <OrderSummary ingredients={this.state.ingredients}/>
+        </Modal>
         <Burger ingredients={this.state.ingredients}/>
         <BuildControls
           ingredientAdded={this.addIngredientHandler}
           ingredientRemoved={this.removeIngredientHandler}
           disabled={disabledInfo}
           purchasable={this.state.purchasable}
+          ordered={this.purchaseHandler}
           price={this.state.totalPrice}/>
       </div>
     )
