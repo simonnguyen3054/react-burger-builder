@@ -85,6 +85,10 @@ class BurgerBuilder extends Component {
     this.setState({purchasing: false})
   }
 
+  purchaseContinueHander = () => {
+    alert('You continue!');
+  }
+
   render () {
     //create an immutable object of ingredients
     //update the values of this new object with true or false
@@ -99,7 +103,10 @@ class BurgerBuilder extends Component {
     return (
       <div>
         <Modal show={this.state.purchasing} modalClosed={this.purchaseCancelHander}>
-          <OrderSummary ingredients={this.state.ingredients}/>
+          <OrderSummary
+              purchaseCanceled={this.purchaseCancelHander}
+              purchaseContinued={this.purchaseContinueHander}
+              ingredients={this.state.ingredients}/>
         </Modal>
         <Burger ingredients={this.state.ingredients}/>
         <BuildControls
